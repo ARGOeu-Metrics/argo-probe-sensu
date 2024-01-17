@@ -13,16 +13,16 @@ class ServiceStatus:
         self._msg = msg
 
     def set_ok(self, msg):
-        self._set_status(status=self.OK, msg=msg)
+        self._set_status(status=self.OK, msg=f"OK - {msg}")
 
     def set_warning(self, msg):
-        self._set_status(status=self.WARNING, msg=msg)
+        self._set_status(status=self.WARNING, msg=f"WARNING - {msg}")
 
     def set_critical(self, msg):
-        self._set_status(status=self.CRITICAL, msg=msg)
+        self._set_status(status=self.CRITICAL, msg=f"CRITICAL - {msg}")
 
     def set_unknown(self, msg):
-        self._set_status(status=self.UNKNOWN, msg=msg)
+        self._set_status(status=self.UNKNOWN, msg=f"UNKNOWN - {msg}")
 
     def get_message(self):
         return self._msg
