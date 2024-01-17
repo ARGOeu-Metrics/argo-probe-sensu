@@ -3,10 +3,27 @@ import argparse
 import grp
 import os
 import pwd
+import signal
 import sys
 
 from argo_probe_sensu.sensu import Sensu, SensuException
 from argo_probe_sensu.status import ServiceStatus
+
+
+class timeout:
+    def __init__(self, seconds=1, error_message="Timeout"):
+        self.seconds = seconds
+        self.error_message = error_message
+
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        signal.alarm(0)
 
 
 def main():
@@ -38,6 +55,11 @@ def main():
              " stored"
     )
     optional.add_argument(
+        "-t", "--timeout", type=int, default=30,
+        help="time in seconds after which the probe will stop execution and "
+             "return CRITICAL (default: 30)"
+    )
+    optional.add_argument(
         "-U", "--user", dest="user", default="sensu",
         help="owner of the file (default: sensu)"
     )
@@ -50,34 +72,37 @@ def main():
     status = ServiceStatus()
 
     try:
-        sensu = Sensu(url=args.url, token=args.token, namespace=args.namespace)
+        with timeout(seconds=args.timeout):
+            sensu = Sensu(
+                url=args.url, token=args.token, namespace=args.namespace
+            )
 
-        hostnames = sensu.get_hostnames()
+            hostnames = sensu.get_hostnames()
 
-        with open(args.file, "w") as f:
-            for hostname in hostnames:
-                f.write(hostname)
+            with open(args.file, "w") as f:
+                for hostname in hostnames:
+                    f.write(hostname)
 
-        try:
-            uid = pwd.getpwnam(args.user).pw_uid
+            try:
+                uid = pwd.getpwnam(args.user).pw_uid
 
-        except KeyError:
-            status.set_critical(f"No user named {args.user}")
-            print(status.get_message())
-            sys.exit(status.get_code())
+            except KeyError:
+                status.set_critical(f"No user named {args.user}")
+                print(status.get_message())
+                sys.exit(status.get_code())
 
-        try:
-            gid = grp.getgrnam(args.user).gr_gid
+            try:
+                gid = grp.getgrnam(args.user).gr_gid
 
-        except KeyError:
-            status.set_critical(f"No group named {args.user}")
-            print(status.get_message())
-            sys.exit(status.get_code())
+            except KeyError:
+                status.set_critical(f"No group named {args.user}")
+                print(status.get_message())
+                sys.exit(status.get_code())
 
-        os.chown(args.file, uid, gid)
-        status.set_ok(
-            f"Successfully generated file with {len(hostnames)} hosts"
-        )
+            os.chown(args.file, uid, gid)
+            status.set_ok(
+                f"Successfully generated file with {len(hostnames)} hosts"
+            )
 
     except SensuException as e:
         status.set_critical(str(e))
