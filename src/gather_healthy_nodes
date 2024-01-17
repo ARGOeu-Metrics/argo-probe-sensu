@@ -81,7 +81,7 @@ def main():
 
             with open(args.file, "w") as f:
                 for hostname in hostnames:
-                    f.write(hostname)
+                    f.write(f"{hostname}\n")
 
             try:
                 uid = pwd.getpwnam(args.user).pw_uid
