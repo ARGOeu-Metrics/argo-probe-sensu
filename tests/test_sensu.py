@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from argo_probe_sensu.sensu import Sensu
+from argo_probe_sensu.sensu import Sensu, SensuException
 
 mock_events = [
     {
@@ -650,6 +650,12 @@ class MockResponse:
             self.ok = True
             self.reason = "OK"
 
+        elif str(status_code).startswith("4"):
+            self.reason = "BAD REQUEST"
+
+        else:
+            self.reason = "SERVER ERROR"
+
     def json(self):
         return self.data
 
@@ -676,4 +682,29 @@ class SensuTests(unittest.TestCase):
         )
         self.assertEqual(
             hostnames, ["atlandse.fis.puc.cl", "atlassrm-kit.gridka.de"]
+        )
+
+    @mock.patch("argo_probe_sensu.sensu.requests.get")
+    def test_get_hostnames_with_exception_without_message(self, mock_get):
+        mock_get.return_value = MockResponse(None, status_code=500)
+        with self.assertRaises(SensuException) as context:
+            self.sensu.get_hostnames(metric="eu.egi.SRM-All")
+
+        self.assertEqual(
+            context.exception.__str__(),
+            "Error fetching events from Sensu API: 500 SERVER ERROR"
+        )
+
+    @mock.patch("argo_probe_sensu.sensu.requests.get")
+    def test_get_hostnames_with_exception_with_message(self, mock_get):
+        mock_get.return_value = MockResponse(
+            {"message": "Something went wrong"}, status_code=400
+        )
+        with self.assertRaises(SensuException) as context:
+            self.sensu.get_hostnames(metric="eu.egi.SRM-All")
+
+        self.assertEqual(
+            context.exception.__str__(),
+            "Error fetching events from Sensu API: 400 BAD REQUEST: "
+            "Something went wrong"
         )
