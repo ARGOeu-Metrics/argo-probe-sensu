@@ -40,6 +40,7 @@ class Sensu:
         events = [
             item for item in self._get_events() if
             item["check"]["metadata"]["name"] == metric and
+            item["entity"]["entity_class"] == "proxy" and
             int(item["check"]["status"]) == 0
         ]
 

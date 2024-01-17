@@ -636,6 +636,92 @@ mock_events = [
         }],
         'sequence': 5654,
         'timestamp': 1705400604
+    },
+    {
+        'check': {
+            'command': 'source /etc/sensu/secret_envs ; export $(cut -d= -f1 '
+                       '/etc/sensu/secret_envs) ; /usr/libexec/argo/probes/'
+                       'oidc/check-refresh-token-expiration -t 5 --token '
+                       '$OIDC_REFRESH_TOKEN',
+            'handlers': [],
+            'high_flap_threshold': 0,
+            'interval': 86400,
+            'low_flap_threshold': 0,
+            'publish': True,
+            'runtime_assets': None,
+            'subscriptions': ['internals'],
+            'proxy_entity_name': '',
+            'check_hooks': None,
+            'stdin': False,
+            'subdue': None,
+            'ttl': 0,
+            'timeout': 900,
+            'round_robin': False,
+            'duration': 0.147931253,
+            'executed': 1705395865,
+            'history': [
+                {'status': 0, 'executed': 1705395865}
+            ],
+            'issued': 1705395865,
+            'output': 'OK - Refresh token valid until Aug 01 2024 14:51:07\n',
+            'state': 'passing',
+            'status': 0,
+            'total_state_change': 0,
+            'last_ok': 1705395865,
+            'occurrences': 1,
+            'occurrences_watermark': 1,
+            'output_metric_format': '',
+            'output_metric_handlers': None,
+            'env_vars': None,
+            'metadata': {
+                'name': 'argo.oidc.refresh-token-validity',
+                'namespace': 'EGI',
+                'annotations': {'attempts': '1'}
+            },
+            'secrets': None,
+            'is_silenced': False,
+            'scheduler': 'memory',
+            'processed_by': 'sensu-agent-egi-arc-devel.cro-ngi',
+            'pipelines': [{
+                'name': 'reduce_alerts',
+                'type': 'Pipeline',
+                'api_version': 'core/v2'
+            }]
+        },
+        'entity': {
+            'entity_class': 'agent',
+            'subscriptions': [
+                'argo.mon__argo-mon-biomed.cro-ngi.hr',
+                'argo.mon__argo-mon-devel.egi.eu',
+                'SRM__atlandse.fis.puc.cl',
+                'SRM__atlasse.lnf.infn.it',
+                'SRM__atlassrm-kit.gridka.de',
+                'SRM__b2se.mel.coepp.org.au',
+                'internals'
+            ],
+            'last_seen': 1705395865,
+            'deregister': False,
+            'deregistration': {},
+            'user': 'agent',
+            'metadata': {
+                'name': 'sensu-agent-egi-arc-devel.cro-ngi',
+                'namespace': 'EGI',
+                'labels': {
+                    'hostname': 'sensu-agent-egi-arc-devel.cro-ngi',
+                    'services': 'argo.sensu.internal'
+                }
+            },
+            'sensu_agent_version': '6.7.1+oss_el7'
+        },
+        'id': 'xxxxx',
+        'metadata': {'namespace': 'EGI'},
+        'pipelines': [{
+            'name': 'reduce_alerts',
+            'type': 'Pipeline',
+            'api_version': 'core/v2'
+        }],
+        'sequence': 1,
+        'timestamp': 1705395865
     }
 ]
 
