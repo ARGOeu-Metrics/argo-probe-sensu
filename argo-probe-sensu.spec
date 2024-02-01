@@ -38,3 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %dir %{python3_sitelib}/%{underscore %{name}}/
 %{python3_sitelib}/%{underscore %{name}}/*.py
+
+
+%changelog
+* Thu Feb 1 2024 Katarina Zailac <kzailac@srce.hr> - 0.1.0-1%{?dist}
+- ARGO-4462 Hostnames saved into file without newline
+- ARGO-4461 Create probe to replace argo-probe-nagios
