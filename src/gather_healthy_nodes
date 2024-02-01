@@ -1,0 +1,118 @@
+#!/usr/bin/python3
+import argparse
+import grp
+import os
+import pwd
+import signal
+import sys
+
+from argo_probe_sensu.sensu import Sensu, SensuException
+from argo_probe_sensu.status import ServiceStatus
+
+
+class timeout:
+    def __init__(self, seconds=1, error_message="Timeout"):
+        self.seconds = seconds
+        self.error_message = error_message
+
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        signal.alarm(0)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Probe that generates list of hostnames with a given "
+                    "service in status OK",
+        add_help=False
+    )
+    required = parser.add_argument_group(description="required arguments:")
+    optional = parser.add_argument_group(description="optional arguments:")
+    required.add_argument(
+        "-u", "--url", dest="url", type=str, required=True, help="Sensu API URL"
+    )
+    required.add_argument(
+        "-k", "--token", dest="token", type=str, required=True,
+        help="Sensu API token"
+    )
+    required.add_argument(
+        "-n", "--namespace", dest="namespace", type=str, required=True,
+        help="tenant's namespace"
+    )
+    required.add_argument(
+        "-m", "--metric", dest="metric", type=str, required=True,
+        help="metric name for which hostnames are being generated"
+    )
+    required.add_argument(
+        "-f", "--file", dest="file", type=str, required=True,
+        help="full path to file into which the list of hostnames is going to be"
+             " stored"
+    )
+    optional.add_argument(
+        "-t", "--timeout", type=int, default=30,
+        help="time in seconds after which the probe will stop execution and "
+             "return CRITICAL (default: 30)"
+    )
+    optional.add_argument(
+        "-U", "--user", dest="user", default="sensu",
+        help="owner of the file (default: sensu)"
+    )
+    optional.add_argument(
+        "-h", "--help", action="help", default=argparse.SUPPRESS,
+        help="show this help message and exit"
+    )
+
+    args = parser.parse_args()
+    status = ServiceStatus()
+
+    try:
+        with timeout(seconds=args.timeout):
+            sensu = Sensu(
+                url=args.url, token=args.token, namespace=args.namespace
+            )
+
+            hostnames = sensu.get_hostnames(metric=args.metric)
+
+            with open(args.file, "w") as f:
+                for hostname in hostnames:
+                    f.write(f"{hostname}\n")
+
+            try:
+                uid = pwd.getpwnam(args.user).pw_uid
+
+            except KeyError:
+                status.set_critical(f"No user named {args.user}")
+                print(status.get_message())
+                sys.exit(status.get_code())
+
+            try:
+                gid = grp.getgrnam(args.user).gr_gid
+
+            except KeyError:
+                status.set_critical(f"No group named {args.user}")
+                print(status.get_message())
+                sys.exit(status.get_code())
+
+            os.chown(args.file, uid, gid)
+            status.set_ok(
+                f"Successfully generated file with {len(hostnames)} hosts"
+            )
+
+    except SensuException as e:
+        status.set_critical(str(e))
+
+    except OSError as e:
+        status.set_critical(f"Unable to open file {args.file}: {str(e)}")
+
+    print(status.get_message())
+    sys.exit(status.get_code())
+
+
+if __name__ == "__main__":
+    main()

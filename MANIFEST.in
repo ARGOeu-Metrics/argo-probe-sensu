@@ -1,0 +1,7 @@
+include src/*
+include modules/*
+include argo-probe-sensu.spec
+
+recursive-exclude test *.pyc *.pyo
+recursive-exclude modules *.pyc *.pyo
+recursive-exclude exec *.pyc *.pyo
