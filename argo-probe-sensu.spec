@@ -2,7 +2,7 @@
 
 Summary:       ARGO probe that generates list of hostnames with a given service in status OK
 Name:          argo-probe-sensu
-Version:       0.1.0
+Version:       0.2.0
 Release:       1%{?dist}
 Source0:       %{name}-%{version}.tar.gz
 License:       ASL 2.0
@@ -12,7 +12,7 @@ Prefix:        %{_prefix}
 BuildArch:     noarch
 
 BuildRequires: python3-devel
-Requires: python36-requests
+Requires: python3-requests
 
 
 %description
