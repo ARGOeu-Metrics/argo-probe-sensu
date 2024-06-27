@@ -2,7 +2,7 @@
 
 Summary:       ARGO probe that generates list of hostnames with a given service in status OK
 Name:          argo-probe-sensu
-Version:       0.1.0
+Version:       0.2.0
 Release:       1%{?dist}
 Source0:       %{name}-%{version}.tar.gz
 License:       ASL 2.0
@@ -12,7 +12,7 @@ Prefix:        %{_prefix}
 BuildArch:     noarch
 
 BuildRequires: python3-devel
-Requires: python36-requests
+Requires: python3-requests
 
 
 %description
@@ -41,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun 27 2024 Katarina Zailac <kzailac@srce.hr> - 0.2.0-1%{?dist}
+- AO-982 Create el9 rpm for argo-probe-sensu
 * Thu Feb 1 2024 Katarina Zailac <kzailac@srce.hr> - 0.1.0-1%{?dist}
 - ARGO-4462 Hostnames saved into file without newline
 - ARGO-4461 Create probe to replace argo-probe-nagios
