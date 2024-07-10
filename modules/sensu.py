@@ -63,7 +63,13 @@ class Sensu:
                 item["entity"]["metadata"]["labels"]["hostname"] == hostname
             ][0]
 
-            return unix_now() - int(event["check"]["last_ok"])
+            last_ok = int(event["check"]["last_ok"])
+
+            if last_ok == 0:
+                return None
+
+            else:
+                return unix_now() - int(event["check"]["last_ok"])
 
         except IndexError:
             raise SensuException(f"Event {hostname}/{metric} does not exist")

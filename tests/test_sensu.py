@@ -754,61 +754,60 @@ mock_events_freshness = [
             "executed": 1720600488,
             "history": [
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720587288
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720588488
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720589688
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720590888
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720592088
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720593288
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720594488
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720595688
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720596888
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720598088
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720599288
                 },
                 {
-                    "status": 0,
+                    "status": 2,
                     "executed": 1720600488
                 }
             ],
             "issued": 1720600488,
-            "output": "No jobs to monitor since the working directory has not "
-                      "yet been created.\n",
-            "state": "passing",
-            "status": 0,
+            "output": "Error",
+            "state": "failing",
+            "status": 2,
             "total_state_change": 0,
-            "last_ok": 1720600488,
+            "last_ok": 0,
             "occurrences": 1147,
             "occurrences_watermark": 1147,
             "output_metric_format": "",
@@ -1112,3 +1111,50 @@ class SensuTests(unittest.TestCase):
             "exist"
         )
 
+    @mock.patch("argo_probe_sensu.sensu.unix_now")
+    @mock.patch("argo_probe_sensu.sensu.requests.get")
+    def test_get_last_ok_if_no_ok(self, mock_get, mock_now):
+        mock_get.return_value = MockResponse(
+            mock_events_freshness, status_code=200
+        )
+        mock_now.return_value = 1720603196
+        freshness = self.sensu.get_last_ok(
+            hostname="sensu-agent-egi-devel-el9.cro-ngi.hr",
+            metric="org.nordugrid.ARC-CE-monitor"
+        )
+        self.assertEqual(freshness, None)
+
+    @mock.patch("argo_probe_sensu.sensu.requests.get")
+    def test_get_last_ok_with_get_events_exception_without_message(
+            self, mock_get
+    ):
+        mock_get.return_value = MockResponse(None, status_code=500)
+        with self.assertRaises(SensuException) as context:
+            self.sensu.get_last_ok(
+                hostname="hostname.example.com",
+                metric="org.nordugrid.ARC-CE-clean"
+            )
+
+        self.assertEqual(
+            context.exception.__str__(),
+            "Error fetching events from Sensu API: 500 SERVER ERROR"
+        )
+
+    @mock.patch("argo_probe_sensu.sensu.requests.get")
+    def test_get_last_ok_with_get_events_exception_with_message(
+            self, mock_get
+    ):
+        mock_get.return_value = MockResponse(
+            {"message": "Something went wrong"}, status_code=400
+        )
+        with self.assertRaises(SensuException) as context:
+            self.sensu.get_last_ok(
+                hostname="hostname.example.com",
+                metric="org.nordugrid.ARC-CE-clean"
+            )
+
+        self.assertEqual(
+            context.exception.__str__(),
+            "Error fetching events from Sensu API: 400 BAD REQUEST: "
+            "Something went wrong"
+        )
