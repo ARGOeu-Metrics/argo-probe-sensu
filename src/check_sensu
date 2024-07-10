@@ -64,7 +64,7 @@ def main():
                 )
 
             else:
-                if args.interval >= tt:
+                if tt >= args.interval:
                     status.set_critical(
                         f"Service {args.hostname}/{args.metric} is older than "
                         f"{args.interval} seconds, last OK check was {tt} "
