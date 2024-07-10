@@ -726,6 +726,292 @@ mock_events = [
 ]
 
 
+mock_events_freshness = [
+    {
+        "check": {
+            "command": "/usr/lib64/nagios/plugins/check_arcce_monitor -O "
+                       "service_suffix=-ops -O lfc_host=dummy -O se_host=dummy "
+                       "--timeout 900 --command-file /var/nagios/rw/nagios.cmd "
+                       "--how-invoked nagios --voms ops --user-proxy /etc/"
+                       "sensu/certs/userproxy.pem",
+            "handlers": [],
+            "high_flap_threshold": 0,
+            "interval": 1200,
+            "low_flap_threshold": 0,
+            "publish": True,
+            "runtime_assets": None,
+            "subscriptions": [
+                "internals"
+            ],
+            "proxy_entity_name": "",
+            "check_hooks": None,
+            "stdin": False,
+            "subdue": None,
+            "ttl": 0,
+            "timeout": 900,
+            "round_robin": False,
+            "duration": 0.146744673,
+            "executed": 1720600488,
+            "history": [
+                {
+                    "status": 0,
+                    "executed": 1720587288
+                },
+                {
+                    "status": 0,
+                    "executed": 1720588488
+                },
+                {
+                    "status": 0,
+                    "executed": 1720589688
+                },
+                {
+                    "status": 0,
+                    "executed": 1720590888
+                },
+                {
+                    "status": 0,
+                    "executed": 1720592088
+                },
+                {
+                    "status": 0,
+                    "executed": 1720593288
+                },
+                {
+                    "status": 0,
+                    "executed": 1720594488
+                },
+                {
+                    "status": 0,
+                    "executed": 1720595688
+                },
+                {
+                    "status": 0,
+                    "executed": 1720596888
+                },
+                {
+                    "status": 0,
+                    "executed": 1720598088
+                },
+                {
+                    "status": 0,
+                    "executed": 1720599288
+                },
+                {
+                    "status": 0,
+                    "executed": 1720600488
+                }
+            ],
+            "issued": 1720600488,
+            "output": "No jobs to monitor since the working directory has not "
+                      "yet been created.\n",
+            "state": "passing",
+            "status": 0,
+            "total_state_change": 0,
+            "last_ok": 1720600488,
+            "occurrences": 1147,
+            "occurrences_watermark": 1147,
+            "output_metric_format": "",
+            "output_metric_handlers": None,
+            "env_vars": None,
+            "metadata": {
+                "name": "org.nordugrid.ARC-CE-monitor",
+                "namespace": "egi",
+                "labels": {
+                    "tenants": "egi"
+                },
+                "annotations": {
+                    "attempts": "8"
+                }
+            },
+            "secrets": None,
+            "is_silenced": False,
+            "scheduler": "memory",
+            "processed_by": "sensu-agent-egi-devel-el9.cro-ngi.hr",
+            "pipelines": []
+        },
+        "entity": {
+            "entity_class": "agent",
+            "system": {
+                "hostname": "sensu-agent-egi-devel-el9.cro-ngi.hr",
+                "os": "linux",
+                "platform": "rocky",
+                "platform_family": "rhel",
+                "platform_version": "9.4",
+                "arch": "amd64",
+                "libc_type": "glibc",
+                "vm_system": "",
+                "vm_role": "",
+                "cloud_provider": "",
+                "processes": None
+            },
+            "subscriptions": [
+                "sub1",
+                "sub2",
+                "sub3",
+                "sub4",
+                "sub5",
+                "sub6",
+                "sub7",
+                "sub8",
+            ],
+            "last_seen": 1720600488,
+            "deregister": False,
+            "deregistration": {},
+            "user": "agent",
+            "metadata": {
+                "name": "sensu-agent-egi-devel-el9.cro-ngi.hr",
+                "namespace": "egi",
+                "labels": {
+                    "hostname": "sensu-agent-egi-devel-el9.cro-ngi.hr",
+                    "services": "argo.sensu.internal"
+                }
+            },
+            "sensu_agent_version": "6.11.0+oss_"
+        },
+        "id": "787c3495-296e-4328-8850-2333293cccd0",
+        "metadata": {
+            "namespace": "egi"
+        },
+        "pipelines": None,
+        "sequence": 435,
+        "timestamp": 1720600489
+    },
+    {
+        "check": {
+            "command": "/usr/lib64/nagios/plugins/check_arcce_clean --timeout "
+                       "600 --command-file /var/nagios/rw/nagios.cmd "
+                       "--how-invoked nagios --voms ops --user-proxy /etc/"
+                       "sensu/certs/userproxy.pem",
+            "handlers": [],
+            "high_flap_threshold": 0,
+            "interval": 1200,
+            "low_flap_threshold": 0,
+            "publish": True,
+            "runtime_assets": None,
+            "subscriptions": [
+                "internals"
+            ],
+            "proxy_entity_name": "",
+            "check_hooks": None,
+            "stdin": False,
+            "subdue": None,
+            "ttl": 0,
+            "timeout": 900,
+            "round_robin": False,
+            "duration": 0.14313019,
+            "executed": 1720600384,
+            "history": [
+                {
+                    "status": 0,
+                    "executed": 1720590784
+                },
+                {
+                    "status": 0,
+                    "executed": 1720591984
+                },
+                {
+                    "status": 0,
+                    "executed": 1720593184
+                },
+                {
+                    "status": 0,
+                    "executed": 1720594384
+                },
+                {
+                    "status": 0,
+                    "executed": 1720595584
+                },
+                {
+                    "status": 0,
+                    "executed": 1720596784
+                },
+                {
+                    "status": 0,
+                    "executed": 1720597984
+                },
+                {
+                    "status": 0,
+                    "executed": 1720599184
+                },
+                {
+                    "status": 0,
+                    "executed": 1720600384
+                }
+            ],
+            "issued": 1720600384,
+            "output": "No jobs to clean since the working directory has not "
+                      "yet been created.\n",
+            "state": "passing",
+            "status": 0,
+            "total_state_change": 0,
+            "last_ok": 1720600384,
+            "occurrences": 1144,
+            "occurrences_watermark": 1144,
+            "output_metric_format": "",
+            "output_metric_handlers": None,
+            "env_vars": None,
+            "metadata": {
+                "name": "org.nordugrid.ARC-CE-clean",
+                "namespace": "egi",
+                "labels": {
+                    "tenants": "egi"
+                },
+                "annotations": {
+                    "attempts": "4"
+                }
+            },
+            "secrets": None,
+            "is_silenced": False,
+            "scheduler": "memory",
+            "processed_by": "sensu-agent-egi2-devel-el9.cro-ngi.hr",
+            "pipelines": []
+        },
+        "entity": {
+            "entity_class": "agent",
+            "system": {
+                "hostname": "sensu-agent-egi2-devel-el9.cro-ngi.hr",
+                "os": "linux",
+                "platform": "rocky",
+                "platform_family": "rhel",
+                "platform_version": "9.4",
+                "arch": "amd64",
+                "libc_type": "glibc",
+                "vm_system": "",
+                "vm_role": "",
+                "cloud_provider": "",
+                "processes": None
+            },
+            "subscriptions": [
+                "sub1",
+                "sub2",
+                "sub3"
+            ],
+            "last_seen": 1720600384,
+            "deregister": False,
+            "deregistration": {},
+            "user": "agent",
+            "metadata": {
+                "name": "sensu-agent-egi2-devel-el9.cro-ngi.hr",
+                "namespace": "egi",
+                "labels": {
+                    "hostname": "sensu-agent-egi2-devel-el9.cro-ngi.hr",
+                    "services": "argo.sensu.internal"
+                }
+            },
+            "sensu_agent_version": "6.11.0+oss_"
+        },
+        "id": "5bbc7474-fec9-43e4-908e-50576cdd97c9",
+        "metadata": {
+          "namespace": "egi"
+        },
+        "pipelines": None,
+        "sequence": 434,
+        "timestamp": 1720600385
+    }
+]
+
+
 class MockResponse:
     def __init__(self, data, status_code):
         self.data = data
@@ -794,3 +1080,35 @@ class SensuTests(unittest.TestCase):
             "Error fetching events from Sensu API: 400 BAD REQUEST: "
             "Something went wrong"
         )
+
+    @mock.patch("argo_probe_sensu.sensu.unix_now")
+    @mock.patch("argo_probe_sensu.sensu.requests.get")
+    def test_get_last_ok(self, mock_get, mock_now):
+        mock_get.return_value = MockResponse(
+            mock_events_freshness, status_code=200
+        )
+        mock_now.return_value = 1720603196
+        freshness = self.sensu.get_last_ok(
+            hostname="sensu-agent-egi2-devel-el9.cro-ngi.hr",
+            metric="org.nordugrid.ARC-CE-clean"
+        )
+        self.assertEqual(freshness, 2812)
+
+    @mock.patch("argo_probe_sensu.sensu.unix_now")
+    @mock.patch("argo_probe_sensu.sensu.requests.get")
+    def test_get_last_ok_if_no_event(self, mock_get, mock_now):
+        mock_get.return_value = MockResponse(
+            mock_events_freshness, status_code=200
+        )
+        mock_now.return_value = 1720603196
+        with self.assertRaises(SensuException) as context:
+            self.sensu.get_last_ok(
+                hostname="hostname.example.com",
+                metric="org.nordugrid.ARC-CE-clean"
+            )
+        self.assertEqual(
+            context.exception.__str__(),
+            "Event hostname.example.com/org.nordugrid.ARC-CE-clean does not "
+            "exist"
+        )
+

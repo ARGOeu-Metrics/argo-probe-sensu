@@ -1,4 +1,11 @@
+import math
+import time
+
 import requests
+
+
+def unix_now():
+    return math.floor(time.time())
 
 
 class SensuException(Exception):
@@ -47,3 +54,16 @@ class Sensu:
         return sorted([
             item["entity"]["metadata"]["labels"]["hostname"] for item in events
         ])
+
+    def get_last_ok(self, hostname, metric):
+        try:
+            event = [
+                item for item in self._get_events() if
+                item["check"]["metadata"]["name"] == metric and
+                item["entity"]["metadata"]["labels"]["hostname"] == hostname
+            ][0]
+
+            return unix_now() - int(event["check"]["last_ok"])
+
+        except IndexError:
+            raise SensuException(f"Event {hostname}/{metric} does not exist")
