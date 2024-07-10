@@ -24,6 +24,7 @@ setup(
     package_dir={'argo_probe_sensu': 'modules'},
     packages=['argo_probe_sensu'],
     data_files=[
-        ('/usr/libexec/argo/probes/sensu', ['src/gather_healthy_nodes'])
+        ('/usr/libexec/argo/probes/sensu',
+         ['src/gather_healthy_nodes', 'src/check_sensu'])
     ]
 )

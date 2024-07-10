@@ -1,0 +1,87 @@
+#!/usr/bin/python3
+import argparse
+import sys
+
+from argo_probe_sensu.sensu import Sensu
+from argo_probe_sensu.utils import ServiceStatus, timeout
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        "Probe that checks if the probe has been executed successfully in the "
+        "given time interval (checking the service 'freshness')",
+        add_help=False
+    )
+    required = parser.add_argument_group(description="required arguments:")
+    optional = parser.add_argument_group(description="optional arguments:")
+    required.add_argument(
+        "-H", "--hostname", dest="hostname", type=str, required=True,
+        help="hostname"
+    )
+    required.add_argument(
+        "-u", "--url", dest="url", type=str, required=True, help="Sensu API URL"
+    )
+    required.add_argument(
+        "-k", "--token", dest="token", type=str, required=True,
+        help="Sensu API token"
+    )
+    required.add_argument(
+        "-n", "--namespace", dest="namespace", type=str, required=True,
+        help="tenant's namespace"
+    )
+    required.add_argument(
+        "-m", "--metric", dest="metric", required=True, type=str,
+        help="name of the metric to check"
+    )
+    required.add_argument(
+        "--interval", dest="interval", required=True, type=int,
+        help="interval in seconds for which the metric status is checked"
+    )
+    optional.add_argument(
+        "-t", "--timeout", dest="timeout", type=int, default=30,
+        help="time in seconds after which the probe will stop execution and "
+             "return CRITICAL (default: 30)"
+    )
+    optional.add_argument(
+        "-h", "--help", action="help", default=argparse.SUPPRESS,
+        help="show this help message and exit"
+    )
+
+    args = parser.parse_args()
+    status = ServiceStatus()
+
+    try:
+        with timeout(seconds=args.timeout):
+            sensu = Sensu(
+                url=args.url, token=args.token, namespace=args.namespace
+            )
+
+            tt = sensu.get_last_ok(hostname=args.hostname, metric=args.metric)
+
+            if not tt:
+                status.set_critical(
+                    f"Service {args.hostname}/{args.metrics} is not OK"
+                )
+
+            else:
+                if tt >= args.interval:
+                    status.set_critical(
+                        f"Service {args.hostname}/{args.metric} is older than "
+                        f"{args.interval} seconds, last OK check was {tt} "
+                        f"seconds ago"
+                    )
+
+                else:
+                    status.set_ok(
+                        f"Service {args.hostname}/{args.metric} is OK"
+                    )
+
+    except Exception as e:
+        status.set_unknown(str(e))
+
+    print(status.get_message())
+    sys.exit(status.get_code())
+
+
+if __name__ == "__main__":
+    main()
