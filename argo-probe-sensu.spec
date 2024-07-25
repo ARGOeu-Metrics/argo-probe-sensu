@@ -41,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul 25 2024 Katarina Zailac <kzailac@srce.hr> - 0.3.0-1%{?dist}
+- ARGO-4749 Create check_sensu probe
 * Thu Jun 27 2024 Katarina Zailac <kzailac@srce.hr> - 0.2.0-1%{?dist}
 - AO-982 Create el9 rpm for argo-probe-sensu
 * Thu Feb 1 2024 Katarina Zailac <kzailac@srce.hr> - 0.1.0-1%{?dist}
