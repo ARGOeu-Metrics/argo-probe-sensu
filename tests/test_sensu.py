@@ -722,6 +722,175 @@ mock_events = [
         }],
         'sequence': 1,
         'timestamp': 1705395865
+    },
+    {
+        "check": {
+            "command":
+                "/usr/lib64/nagios/plugins/srm/srm_probe.py -H "
+                "atlas-dcache-01.roma1.infn.it -t 400 -d -p eu.egi.SRM -s ops "
+                "--se-timeout 360 --voname ops -X /etc/sensu/certs/userproxy.pem "
+                "--ldap-url atlas-bdii.roma1.infn.it ",
+            "handlers": [],
+            "high_flap_threshold": 0,
+            "interval": 3600,
+            "low_flap_threshold": 0,
+            "publish": True,
+            "runtime_assets": None,
+            "subscriptions": [
+                "entity:sensu-agent-egi-devel-el9.cro-ngi.hr"
+            ],
+            "proxy_entity_name": "SRM__atlas-dcache-01.roma1.infn.it",
+            "check_hooks": None,
+            "stdin": False,
+            "subdue": None,
+            "ttl": 0,
+            "timeout": 900,
+            "proxy_requests": {
+                "entity_attributes": [
+                    "entity.entity_class == 'proxy'",
+                    "entity.labels.eu_egi_srm_all == 'eu.egi.SRM-All'"
+                ],
+                "splay": False,
+                "splay_coverage": 0
+            },
+            "round_robin": False,
+            "duration": 132.196896887,
+            "executed": 1726727795,
+            "history": [
+                {
+                    "status": 1,
+                    "executed": 1726655795
+                },
+                {
+                    "status": 1,
+                    "executed": 1726659395
+                },
+                {
+                    "status": 1,
+                    "executed": 1726662995
+                },
+                {
+                    "status": 1,
+                    "executed": 1726666595
+                },
+                {
+                    "status": 1,
+                    "executed": 1726670195
+                },
+                {
+                    "status": 1,
+                    "executed": 1726673795
+                },
+                {
+                    "status": 0,
+                    "executed": 1726677395
+                },
+                {
+                    "status": 0,
+                    "executed": 1726680995
+                },
+                {
+                    "status": 1,
+                    "executed": 1726684595
+                },
+                {
+                    "status": 1,
+                    "executed": 1726688195
+                }
+            ],
+            "issued": 1726727795,
+            "output":
+                "Sep 19 08:36:36 DEBUG core[1213690]: Call sequence: "
+                "[(<function getSURLs at 0x7f1034682040>, 'GetSURLs', True), "
+                "(<function metricVOLsDir at 0x7f10346820d0>, 'VOLsDir', True),"
+                " (<function metricVOPut at 0x7f1034682160>, 'VOPut', True), "
+                "(<function metricVOLs at 0x7f10346821f0>, 'VOLs', True), "
+                "(<function metricVOGetTURLs at 0x7f1034682280>, 'VOGetTurl', "
+                "True), (<function metricVOGet at 0x7f1034682310>, 'VOGet', "
+                "True), (<function metricVODel at 0x7f10346823a0>, 'VODel', "
+                "True), (<function metricVOAlll at 0x7f1034682430>, 'VOAll', "
+                "False)] \nSep 19 08:36:36 DEBUG core[1213690]:    "
+                "Function call: getSURLs\nldap_sasl_bind(SIMPLE): Can't "
+                "contact LDAP server (-1)\nSep 19 08:38:48 DEBUG "
+                "core[1213690]: b'UNKNOWN - Error querying the BDII\\\\n'\n"
+                "Sep 19 08:38:48 DEBUG core[1213690]:    Function call: "
+                "metricVOLsDir\nSep 19 08:38:48 DEBUG core[1213690]: b'"
+                "WARNING - VOLsDir skipped\\\\n'\nSep 19 08:38:48 ",
+            "state": "failing",
+            "status": 1,
+            "total_state_change": 0,
+            "last_ok": 0,
+            "occurrences": 1514,
+            "occurrences_watermark": 1514,
+            "output_metric_format": "",
+            "output_metric_handlers": None,
+            "env_vars": None,
+            "metadata": {
+                "name": "eu.egi.SRM-All",
+                "namespace": "egi",
+                "labels": {
+                    "tenants": "egi"
+                },
+                "annotations": {
+                    "attempts": "4"
+                }
+            },
+            "secrets": None,
+            "is_silenced": False,
+            "scheduler": "",
+            "processed_by": "sensu-agent-egi-devel-el9.cro-ngi.hr",
+            "pipelines": [
+                {
+                    "name": "hard_state",
+                    "type": "Pipeline",
+                    "api_version": "core/v2"
+                }
+            ]
+        },
+        "entity": {
+            "entity_class": "proxy",
+            "subscriptions": None,
+            "last_seen": 0,
+            "deregister": False,
+            "deregistration": {},
+            "metadata": {
+                "name": "SRM__atlas-dcache-01.roma1.infn.it",
+                "namespace": "egi",
+                "labels": {
+                    "eu_egi_srm_all": "eu.egi.SRM-All",
+                    "eu_egi_srm_getsurls": "eu.egi.SRM-GetSURLs",
+                    "eu_egi_srm_vodel": "eu.egi.SRM-VODel",
+                    "eu_egi_srm_voget": "eu.egi.SRM-VOGet",
+                    "eu_egi_srm_vogetturl": "eu.egi.SRM-VOGetTurl",
+                    "eu_egi_srm_vols": "eu.egi.SRM-VOLs",
+                    "eu_egi_srm_volsdir": "eu.egi.SRM-VOLsDir",
+                    "eu_egi_srm_voput": "eu.egi.SRM-VOPut",
+                    "generic_certificate_validity_srm":
+                        "generic.certificate.validity-srm",
+                    "hostname": "atlas-dcache-01.roma1.infn.it",
+                    "ldap_url__site_bdii":
+                        "--ldap-url atlas-bdii.roma1.infn.it",
+                    "ngi": "NGI_IT",
+                    "service": "SRM",
+                    "site": "INFN-ROMA1",
+                    "tenants": "egi"
+                }
+            },
+            "sensu_agent_version": ""
+        },
+        "id": "15895d16-5635-44fd-afe9-97602d3c60cc",
+        "metadata": {
+            "namespace": "egi"
+        },
+        "pipelines": [
+            {
+                "name": "hard_state",
+                "type": "Pipeline",
+                "api_version": "core/v2"
+            }
+        ],
+        "sequence": 16393,
+        "timestamp": 1726727928
     }
 ]
 
@@ -1042,8 +1211,14 @@ class SensuTests(unittest.TestCase):
     @mock.patch("argo_probe_sensu.sensu.requests.get")
     def test_get_hostnames(self, mock_get):
         mock_get.return_value = MockResponse(mock_events, status_code=200)
-        hostnames = self.sensu.get_hostnames(metric="eu.egi.SRM-All")
-        mock_get.assert_called_once_with(
+        hostnames1 = self.sensu.get_hostnames(
+            metric="eu.egi.SRM-All", check_last=3
+        )
+        hostnames2 = self.sensu.get_hostnames(
+            metric="eu.egi.SRM-All", check_last=2
+        )
+        self.assertEqual(mock_get.call_count, 2)
+        mock_get.assert_called_with(
             "https://sensu.example.com:8080/api/core/v2/namespaces/TENANT/"
             "events",
             headers={
@@ -1052,14 +1227,24 @@ class SensuTests(unittest.TestCase):
             }
         )
         self.assertEqual(
-            hostnames, ["atlandse.fis.puc.cl", "atlassrm-kit.gridka.de"]
+            hostnames1, [
+                "atlandse.fis.puc.cl",
+                "atlas-dcache-01.roma1.infn.it",
+                "atlassrm-kit.gridka.de"
+            ]
+        )
+        self.assertEqual(
+            hostnames2, [
+                "atlandse.fis.puc.cl",
+                "atlassrm-kit.gridka.de"
+            ]
         )
 
     @mock.patch("argo_probe_sensu.sensu.requests.get")
     def test_get_hostnames_with_exception_without_message(self, mock_get):
         mock_get.return_value = MockResponse(None, status_code=500)
         with self.assertRaises(SensuException) as context:
-            self.sensu.get_hostnames(metric="eu.egi.SRM-All")
+            self.sensu.get_hostnames(metric="eu.egi.SRM-All", check_last=3)
 
         self.assertEqual(
             context.exception.__str__(),
@@ -1072,7 +1257,7 @@ class SensuTests(unittest.TestCase):
             {"message": "Something went wrong"}, status_code=400
         )
         with self.assertRaises(SensuException) as context:
-            self.sensu.get_hostnames(metric="eu.egi.SRM-All")
+            self.sensu.get_hostnames(metric="eu.egi.SRM-All", check_last=3)
 
         self.assertEqual(
             context.exception.__str__(),
