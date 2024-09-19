@@ -38,7 +38,12 @@ def main():
              " stored"
     )
     optional.add_argument(
-        "-t", "--timeout", type=int, default=30,
+        "-l", "--check-last", dest="check_last", type=int, default=2,
+        help="number of previous execution which to check for successful "
+             "execution (default: 2)"
+    )
+    optional.add_argument(
+        "-t", "--timeout", dest="timeout", type=int, default=30,
         help="time in seconds after which the probe will stop execution and "
              "return CRITICAL (default: 30)"
     )
@@ -60,7 +65,9 @@ def main():
                 url=args.url, token=args.token, namespace=args.namespace
             )
 
-            hostnames = sensu.get_hostnames(metric=args.metric)
+            hostnames = sensu.get_hostnames(
+                metric=args.metric, check_last=args.check_last
+            )
 
             with open(args.file, "w") as f:
                 for hostname in hostnames:
