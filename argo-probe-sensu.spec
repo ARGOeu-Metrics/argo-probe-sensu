@@ -2,7 +2,7 @@
 
 Summary:       ARGO probe that generates list of hostnames with a given service in status OK
 Name:          argo-probe-sensu
-Version:       0.3.0
+Version:       0.3.1
 Release:       1%{?dist}
 Source0:       %{name}-%{version}.tar.gz
 License:       ASL 2.0
@@ -41,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 3 2024 Katarina Zailac <kzailac@srce.hr> - 0.3.1-1%{?dist}
+- ARGO-4832 Change logic of generation of SRM healthy nodes
 * Thu Jul 25 2024 Katarina Zailac <kzailac@srce.hr> - 0.3.0-1%{?dist}
 - ARGO-4749 Create check_sensu probe
 * Thu Jun 27 2024 Katarina Zailac <kzailac@srce.hr> - 0.2.0-1%{?dist}

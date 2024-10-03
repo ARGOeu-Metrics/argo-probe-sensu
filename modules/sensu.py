@@ -43,12 +43,14 @@ class Sensu:
 
             raise SensuException(message)
 
-    def get_hostnames(self, metric):
+    def get_hostnames(self, metric, check_last):
         events = [
             item for item in self._get_events() if
             item["check"]["metadata"]["name"] == metric and
-            item["entity"]["entity_class"] == "proxy" and
-            int(item["check"]["status"]) == 0
+            item["entity"]["entity_class"] == "proxy" and (
+                0 in [int(hist["status"]) for hist in
+                      item["check"]["history"][-check_last:]]
+            )
         ]
 
         return sorted([
